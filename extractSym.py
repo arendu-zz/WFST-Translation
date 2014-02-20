@@ -13,8 +13,14 @@ if __name__ == '__main__':
     for t in tm:
         try:
             [f, e, n] = t.split('|||')
-            sym_f.update(tuple(f.split()))
-            sym_e.update(tuple(e.split()))
+            fs = f.split()
+            fp = '_'.join(fs)
+            sym_f.update(tuple(fs))
+            sym_f.add(fp)
+            es = e.split()
+            ep = '_'.join(es)
+            sym_e.update(tuple(es))
+            sym_e.add(ep)
         except:
             print 'error in line', t
 

@@ -102,6 +102,15 @@ def make_translation(phrases, sym_f, sym_e):
     return full
 
 
+def make_translation_chunks(phrases, sym_f, sym_e):
+    #assumes syms have chunked phrases already
+    full = fst.LogTransducer(sym_f, sym_e)
+    full[0].final = True
+    for fp, ep, lp in phrases:
+        full.add_arc(0, 0, '_'.join(fp), '_'.join(ep), lp)
+    return full
+
+
 sym_f = fst.SymbolTable()
 sym_e = fst.SymbolTable()
 for l in open('data/syme.sym', 'r').readlines():
@@ -109,7 +118,8 @@ for l in open('data/syme.sym', 'r').readlines():
 for l in open('data/symf.sym', 'r').readlines():
     sym_f[l.split()[0]]
 phrases = [(tuple(l.split('|||')[0].split()), tuple(l.split('|||')[1].split()), float(l.split('|||')[2])) for l in
-           open('data/tm2', 'r').readlines()]
+           open('data/tm', 'r').readlines()]
+'''
 print 'making functions fst'
 outfunc = make_functional_translation(phrases, sym_f, sym_e)
 print 'making non functional fst'
@@ -117,5 +127,11 @@ out = make_translation(phrases, sym_f, sym_e)
 print 'writing..'
 outfunc.write('full-func.fst')
 out.write('full.fst')
+
+'''
+print 'making chunked phrase fst...'
+out = make_translation_chunks(phrases, sym_f, sym_e)
+out.write('data/full-chunked.fst')
+print 'writing binary symbol table..'
 sym_e.write('data/syme.bin')
 sym_f.write('data/symf.bin')
