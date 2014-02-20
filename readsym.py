@@ -20,52 +20,52 @@ def make_functional_translation(phrases, sym_f, sym_e):
         """
         f_end = None
         for fp_idx, (fp, lp) in enumerate(fp_list):
-            print ep, fp
+            #print ep, fp
             for idx, fw in enumerate(fp):
                 if len(fp) == 1:
                     if f_end is None:
                         full.add_arc(0, cumilative, fw, fst.EPSILON, lp)
-                        print 'case 4f', 0, 'to', cumilative, 'saving', cumilative
+                        #print 'case 4f', 0, 'to', cumilative, 'saving', cumilative
                         f_end = cumilative  #  keep track of end state to merge all fp's into
                     else:
                         full.add_arc(0, f_end, fw, fst.EPSILON, lp)
-                        print 'case 4f', 0, 'to', f_end
+                        #print 'case 4f', 0, 'to', f_end
                     if fp_idx < len(fp_list) - 1:
                         cumilative += 1  # get ready for the next fp form 0
                 elif idx == 0:
                     full.add_arc(0, cumilative, fw, fst.EPSILON, 0.0)
-                    print 'case 1f', 0, 'to', cumilative
+                    #print 'case 1f', 0, 'to', cumilative
                 elif idx == len(fp) - 1:
                     if f_end is None:
                         full.add_arc(cumilative, cumilative + 1, fw, fst.EPSILON, lp)
-                        print 'case 3f', cumilative, 'to', cumilative + 1, 'saving', cumilative + 1
+                        #print 'case 3f', cumilative, 'to', cumilative + 1, 'saving', cumilative + 1
                         cumilative += 1
                         f_end = cumilative  #  keep track of end state to merge all fp's into
                     else:
                         full.add_arc(cumilative, f_end, fw, fst.EPSILON, lp)
-                        print 'case 3f', cumilative, 'to', f_end
+                        #print 'case 3f', cumilative, 'to', f_end
                     if fp_idx < len(fp_list) - 1:
                         cumilative += 1  # get ready for the next fp form 0
                 else:
                     full.add_arc(cumilative, cumilative + 1, fw, fst.EPSILON, 0.0)
-                    print 'case 2f', cumilative, 'to', cumilative + 1
+                    #print 'case 2f', cumilative, 'to', cumilative + 1
                     cumilative += 1
         cumilative += 1
         for idx, ew in enumerate(ep):
             if len(ep) == 1:
-                print ew, sym_e[ew]
+                #print ew, sym_e[ew]
                 full.add_arc(f_end, 0, fst.EPSILON, ew, 0.0)
-                print 'case 4e', f_end, 'to', 0
+                #print 'case 4e', f_end, 'to', 0
                 cumilative -= 1
             elif idx == 0:
                 full.add_arc(f_end, cumilative, fst.EPSILON, ew, 0.0)
-                print 'case 1e', f_end, 'to', cumilative
+                #print 'case 1e', f_end, 'to', cumilative
             elif idx == len(ep) - 1:
                 full.add_arc(cumilative, 0, fst.EPSILON, ew, 0.0)
-                print 'case 3e', cumilative, 'to', 0
+                #print 'case 3e', cumilative, 'to', 0
             else:
                 full.add_arc(cumilative, cumilative + 1, fst.EPSILON, fst.EPSILON, 0.0)
-                print 'case 2e', cumilative, 'to', cumilative + 1
+                #print 'case 2e', cumilative, 'to', cumilative + 1
                 cumilative += 1
         cumilative += 1  # getting ready for next sentence pair
 
@@ -113,9 +113,9 @@ phrases = [(tuple(l.split('|||')[0].split()), tuple(l.split('|||')[1].split()), 
 print 'making functions fst'
 outfunc = make_functional_translation(phrases, sym_f, sym_e)
 print 'making non functional fst'
-#out = make_translation(phrases, sym_f, sym_e)
+out = make_translation(phrases, sym_f, sym_e)
 print 'writing..'
 outfunc.write('full-func.fst')
-#out.write('full.fst')
-#sym_e.write('syme.bin')
-#sym_f.write('symf.bin')
+out.write('full.fst')
+sym_e.write('data/syme.bin')
+sym_f.write('data/symf.bin')
