@@ -25,16 +25,17 @@ if __name__ == '__main__':
             print 'error in line', t
 
     sym_w = open('data/syme.sym', 'w')
-    sym_o = [str(sym.strip() + ' ' + str(id + 1)).strip() for id, sym in enumerate(sym_e)]
+    sym_o = [str(sym.strip() + ' ' + str(id + 1)).strip()
+             for id, sym in enumerate(sym_e)]
     sym_o.insert(0, '<eps> 0')
     sym_w.write('\n'.join(sym_o))
     sym_w.flush()
     sym_w.close()
 
     sym_w = open('data/symf.sym', 'w')
-    sym_o = [str(sym.strip() + ' ' + str(id + 1)).strip() for id, sym in enumerate(sym_f)]
+    sym_o = [str(sym.strip() + ' ' + str(id + 1)).strip()
+             for id, sym in enumerate(sym_f)]
     sym_o.insert(0, '<eps> 0')
     sym_w.write('\n'.join(sym_o))
     sym_w.flush()
     sym_w.close()
-

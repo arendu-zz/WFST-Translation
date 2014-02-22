@@ -5,13 +5,15 @@ then returns a fst which contains all possible segmentations of that string
 """
 import fst
 
-def log_linear_chain(txt,sym_f):
+
+def log_linear_chain(txt, sym_f):
     txt = txt.split()
     lc = fst.LogTransducer(sym_f, sym_f)
-    for idx,t in enumerate(txt):
-        lc.add_arc(idx, idx+1,t,t,0.0)
-    lc[idx+1].final = True
+    for idx, t in enumerate(txt):
+        lc.add_arc(idx, idx + 1, t, t, 0.0)
+    lc[idx + 1].final = True
     return lc
+
 
 def make_segmenter(phrases, sym_f):
     individual_tokens = set([])
@@ -34,9 +36,10 @@ def make_segmenter(phrases, sym_f):
         else:
             fw = fp[0]
             individual_tokens.add(fw)
-    #adding individual tokens
+    # adding individual tokens
     for idt in individual_tokens:
-        segmenter.add_arc(0,0,idt,idt,0.0) #make self loops with single tokens
+        # make self loops with single tokens
+        segmenter.add_arc(0, 0, idt, idt, 0.0)
     return segmenter
 
 sym_f = fst.read_symbols('data/symf.bin')
@@ -53,15 +56,12 @@ for l in open('data/symf.sym', 'r').readlines():
         sym_f[lw]
 '''
 phrases_f = [tuple(l.split('|||')[0].split()) for l in
-           open('data/tm', 'r').readlines()]
+             open('data/tm', 'r').readlines()]
 phrases_f = set(phrases_f)
 seg = make_segmenter(phrases_f, sym_f)
-#seg.remove_epsilon()
-#seg.determinize()
 seg.write('data/seg.fst', sym_f, sym_f)
 
-lc = log_linear_chain("que et je me",sym_f)
-lc.write('data/lc.fst',sym_f,sym_f)
+lc = log_linear_chain("que et je me", sym_f)
+lc.write('data/lc.fst', sym_f, sym_f)
 out = lc.compose(seg)
-#out.determinize()
-out.write('out.fst',sym_f,sym_f)
+out.write('out.fst', sym_f, sym_f)

@@ -104,8 +104,8 @@ def make_translation(phrases, sym_f, sym_e):
 
 
 def make_translation_chunks(phrases, sym_f, sym_e):
-    #assumes syms have chunked phrases already
-    #make phrase map many to 1.
+    # assumes syms have chunked phrases already
+    # make phrase map many to 1.
     functional_phrases = {}
     for fp, ep, lp in phrases:
         functional_phrases[ep] = functional_phrases.get(ep, [])
