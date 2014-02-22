@@ -2,7 +2,7 @@ __author__ = 'arenduchintala'
 
 import fst
 
-
+'''
 def make_functional_translation(phrases, sym_f, sym_e):
     full = fst.LogTransducer(sym_f, sym_e)
     full[0].final = True
@@ -100,14 +100,28 @@ def make_translation(phrases, sym_f, sym_e):
                 cumilative += 1
         cumilative += 1
     return full
+'''
 
 
 def make_translation_chunks(phrases, sym_f, sym_e):
     #assumes syms have chunked phrases already
+    #make phrase map many to 1.
+    functional_phrases = {}
+    for fp, ep, lp in phrases:
+        functional_phrases[ep] = functional_phrases.get(ep, [])
+        functional_phrases[ep].append((fp, lp))
     full = fst.LogTransducer(sym_f, sym_e)
     full[0].final = True
-    for fp, ep, lp in phrases:
-        full.add_arc(0, 0, '_'.join(fp), '_'.join(ep), lp)
+    ist = 1
+    for ep, f_list in functional_phrases.iteritems():
+        ep = '_'.join(ep)
+        print sym_e[ep], ep
+        for fp, lp in f_list:
+            fp = '_'.join(fp)
+            print '\t', fp, sym_f[fp], lp
+            full.add_arc(0, ist, fp, fst.EPSILON, lp)
+        full.add_arc(ist, 0, fst.EPSILON, ep, 0.0)
+        ist += 1
     return full
 
 
@@ -117,21 +131,14 @@ for l in open('data/syme.sym', 'r').readlines():
     sym_e[l.split()[0]]
 for l in open('data/symf.sym', 'r').readlines():
     sym_f[l.split()[0]]
+    for lw in l.split()[0].split('_'):
+        sym_f[lw]
 phrases = [(tuple(l.split('|||')[0].split()), tuple(l.split('|||')[1].split()), float(l.split('|||')[2])) for l in
            open('data/tm', 'r').readlines()]
-'''
-print 'making functions fst'
-outfunc = make_functional_translation(phrases, sym_f, sym_e)
-print 'making non functional fst'
-out = make_translation(phrases, sym_f, sym_e)
-print 'writing..'
-outfunc.write('full-func.fst')
-out.write('full.fst')
 
-'''
-print 'making chunked phrase fst...'
 out = make_translation_chunks(phrases, sym_f, sym_e)
-out.write('data/full-chunked.fst')
+out.write('data/chunked.fst', sym_f, sym_e)
 print 'writing binary symbol table..'
+
 sym_e.write('data/syme.bin')
 sym_f.write('data/symf.bin')
