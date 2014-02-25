@@ -5,7 +5,6 @@ then returns a fst which contains all possible segmentations of that string
 """
 import fst
 
-
 def log_linear_chain(txt, sym_f):
     txt = txt.split()
     lc = fst.LogTransducer(sym_f, sym_f)
@@ -60,8 +59,10 @@ phrases_f = [tuple(l.split('|||')[0].split()) for l in
 phrases_f = set(phrases_f)
 seg = make_segmenter(phrases_f, sym_f)
 seg.write('data/seg.fst', sym_f, sym_f)
-
+'''
+#Enable this chuck to test the output when a linear chain is composed with the phrase segmenter
 lc = log_linear_chain("que et je me", sym_f)
 lc.write('data/lc.fst', sym_f, sym_f)
 out = lc.compose(seg)
 out.write('out.fst', sym_f, sym_f)
+'''
