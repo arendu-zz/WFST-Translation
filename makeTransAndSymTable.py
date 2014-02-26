@@ -108,19 +108,20 @@ def make_translation_chunks(phrases, sym_f, sym_e):
     # make phrase map many to 1.
     functional_phrases = {}
     for fp, ep, lp in phrases:
-        functional_phrases[ep] = functional_phrases.get(ep, [])
-        functional_phrases[ep].append((fp, lp))
-    full = fst.LogTransducer(sym_f, sym_e)
+        functional_phrases[fp] = functional_phrases.get(fp, [])
+        functional_phrases[fp].append((ep, -lp))
+
+    full = fst.Transducer(sym_f, sym_e)
     full[0].final = True
     ist = 1
-    for ep, f_list in functional_phrases.iteritems():
-        ep = '_'.join(ep)
-        print sym_e[ep], ep
-        for fp, lp in f_list:
-            fp = '_'.join(fp)
-            print '\t', fp, sym_f[fp], lp
-            full.add_arc(0, ist, fp, fst.EPSILON, lp)
-        full.add_arc(ist, 0, fst.EPSILON, ep, 0.0)
+    for fp, e_list in functional_phrases.iteritems():
+        fp = '_'.join(fp)
+        full.add_arc(0, ist, fp, fst.EPSILON, 0.0)
+        for ep, lp in e_list:
+            ep = '_'.join(ep)
+            print '\t', ep, sym_f[fp], lp
+            full.add_arc(ist, 0, fst.EPSILON, ep, lp)
+        #full.add_arc(ist, 0, fst.EPSILON, ep, 0.0)
         ist += 1
     return full
 
@@ -139,5 +140,7 @@ phrases = [(tuple(l.split('|||')[0].split()), tuple(l.split('|||')[1].split()), 
 out = make_translation_chunks(phrases, sym_f, sym_e)
 out.write('data/trans.fst', sym_f, sym_e)
 print 'writing binary symbol table..'
+'''
 sym_e.write('data/syme.bin')
 sym_f.write('data/symf.bin')
+'''

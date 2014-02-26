@@ -5,9 +5,10 @@ then returns a fst which contains all possible segmentations of that string
 """
 import fst
 
+
 def log_linear_chain(txt, sym_f):
     txt = txt.split()
-    lc = fst.LogTransducer(sym_f, sym_f)
+    lc = fst.Transducer(sym_f, sym_f)
     for idx, t in enumerate(txt):
         lc.add_arc(idx, idx + 1, t, t, 0.0)
     lc[idx + 1].final = True
@@ -16,7 +17,7 @@ def log_linear_chain(txt, sym_f):
 
 def make_segmenter(phrases, sym_f):
     individual_tokens = set([])
-    segmenter = fst.LogTransducer(sym_f, sym_f)
+    segmenter = fst.Transducer(sym_f, sym_f)
     segmenter[0].final = True
     s = 0
     e = 1
@@ -41,6 +42,7 @@ def make_segmenter(phrases, sym_f):
         segmenter.add_arc(0, 0, idt, idt, -1.0)
     return segmenter
 
+
 sym_f = fst.read_symbols('data/symf.bin')
 sym_e = fst.read_symbols('data/syme.bin')
 '''
@@ -54,8 +56,7 @@ for l in open('data/symf.sym', 'r').readlines():
     for lw in lws:
         sym_f[lw]
 '''
-phrases_f = [tuple(l.split('|||')[0].split()) for l in
-             open('data/tm', 'r').readlines()]
+phrases_f = [tuple(l.split('|||')[0].split()) for l in open('data/tm', 'r').readlines()]
 phrases_f = set(phrases_f)
 seg = make_segmenter(phrases_f, sym_f)
 seg.write('data/seg.fst', sym_f, sym_f)

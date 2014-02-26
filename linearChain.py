@@ -26,7 +26,7 @@ def parseargs(args):
 
 def log_linear_chain(txt, sym_f):
     txt = txt.split()
-    lc = fst.LogTransducer(sym_f, sym_f)
+    lc = fst.Transducer(sym_f, sym_f)
     for idx, t in enumerate(txt):
         lc.add_arc(idx, idx + 1, t, t, 0.0)
     lc[idx + 1].final = True
