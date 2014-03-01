@@ -32,14 +32,14 @@ def make_segmenter(phrases, sym_f):
                     segmenter.add_arc(s, e, fw, fst.EPSILON, 0.0)
                 s = e
                 e += 1
-            segmenter.add_arc(s, 0, fst.EPSILON, fc, -1.0)
+            segmenter.add_arc(s, 0, fst.EPSILON, fc, 1.0)  # more segments more expensive the path becomes
         else:
             fw = fp[0]
             individual_tokens.add(fw)
     # adding individual tokens
     for idt in individual_tokens:
         # make self loops with single tokens
-        segmenter.add_arc(0, 0, idt, idt, -1.0)
+        segmenter.add_arc(0, 0, idt, idt, 1.0)  # more segments more expensive the path becomes
     return segmenter
 
 

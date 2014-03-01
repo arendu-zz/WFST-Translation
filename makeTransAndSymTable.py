@@ -109,7 +109,7 @@ def make_translation_chunks(phrases, sym_f, sym_e):
     functional_phrases = {}
     for fp, ep, lp in phrases:
         functional_phrases[fp] = functional_phrases.get(fp, [])
-        functional_phrases[fp].append((ep, -lp))
+        functional_phrases[fp].append((ep, -lp))  # convert the negative weights to positive, large weight = less prob
 
     full = fst.Transducer(sym_f, sym_e)
     full[0].final = True
