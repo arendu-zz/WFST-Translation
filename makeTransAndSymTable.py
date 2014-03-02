@@ -140,7 +140,5 @@ phrases = [(tuple(l.split('|||')[0].split()), tuple(l.split('|||')[1].split()), 
 out = make_translation_chunks(phrases, sym_f, sym_e)
 out.write('data/trans.fst', sym_f, sym_e)
 print 'writing binary symbol table..'
-'''
 sym_e.write('data/syme.bin')
 sym_f.write('data/symf.bin')
-'''
