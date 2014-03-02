@@ -19,8 +19,12 @@ def getpaths(f, n):
 if __name__ == '__main__':
     #symi = fst.read_symbols(sys.argv[2].strip())
     #symo = fst.read_symbols(sys.argv[3].strip())
-    f = fst.read_std(sys.argv[1].strip())
-    n = int(sys.argv[2].strip())
+    try:
+        f = fst.read_std(sys.argv[1].strip())
+        n = int(sys.argv[2].strip())
+    except:
+        print 'useage: python outputPaths.py [in.fst] [n]\n'
+        exit()
     f.remove_epsilon()
     paths = getpaths(f, n)
     for p in sorted(paths):
