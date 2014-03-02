@@ -8,4 +8,4 @@ if __name__ == '__main__':
     os.system('fstcompose lc.seg.fst data/trans.fst > lc.trans.fst')
     os.system('fstcompose lc.trans.fst data/inv_seg.fst > lc.out.fst')
     os.system('python outputPaths.py lc.out.fst ' + str(n))
-    os.system('rm lc.fst lc.trans.fst lc.seg.fst lc.out.fst')
+#    os.system('rm lc.fst lc.trans.fst lc.seg.fst lc.out.fst')

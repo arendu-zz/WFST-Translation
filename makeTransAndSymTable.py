@@ -134,6 +134,7 @@ for l in open('data/symf.sym', 'r').readlines():
     sym_f[l.split()[0]]
     for lw in l.split()[0].split('_'):
         sym_f[lw]
+
 phrases = [(tuple(l.split('|||')[0].split()), tuple(l.split('|||')[1].split()), float(l.split('|||')[2])) for l in
            open('data/tm', 'r').readlines()]
 
