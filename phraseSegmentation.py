@@ -47,24 +47,20 @@ if __name__ == '__main__':
 
     sym_f = fst.read_symbols('data/symf.bin')
     sym_e = fst.read_symbols('data/syme.bin')
-    '''
-    for l in open('data/syme.sym', 'r').readlines():
-        sym_e[l.split()[0]]
 
-    for l in open('data/symf.sym', 'r').readlines():
-        lp = l.split()[0]
-        sym_f[lp]
-        lws = lp.split('_')
-        for lw in lws:
-            sym_f[lw]
-    '''
     phrases_f = [tuple(l.split('|||')[0].split()) for l in open('data/tm', 'r').readlines()]
     phrases_f = set(phrases_f)
+    input = open('data/input', 'r').read().split()
+    input = [tuple([i]) for i in input]
+    phrases_f.update(input)
     seg = make_segmenter(phrases_f, sym_f)
     seg.write('data/seg.fst', sym_f, sym_f)
 
     phrases_e = [tuple(l.split('|||')[1].split()) for l in open('data/tm', 'r').readlines()]
     phrases_e = set(phrases_e)
+    phrases_sym_e = [tuple(k.split('_')) for k, v in sym_e.items()]
+    phrases_sym_e = set(phrases_sym_e)
+    phrases_e = phrases_e.union(phrases_sym_e)
     seg_e = make_segmenter(phrases_e, sym_e)
     seg_e.invert()
     seg_e.arc_sort_input()

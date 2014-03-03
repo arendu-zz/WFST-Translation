@@ -3,8 +3,11 @@ __author__ = 'arenduchintala'
 if __name__ == '__main__':
     lm = open('data/lm', 'r').readlines()
     tm = open('data/tm', 'r').readlines()
+    input = open('data/input', 'r').read().split()
+    input = set(input)
     sym_e = set(['<s>', '</s>', '<unk>'])
     sym_f = set(['<s>', '</s>', '<unk>'])
+    sym_f.update(input)
     for l in lm:
         ls = l.split('\t')
         if len(ls) == 2 or len(ls) == 3:
