@@ -15,7 +15,7 @@ def split_l(l):
 if __name__ == '__main__':
     sym_f = fst.read_symbols('data/symf.bin')
     sym_e = fst.read_symbols('data/syme.bin')
-    lm_lines = open('data/lm', 'r').readlines()
+    lm_lines = open('data/lmc', 'r').readlines()
     lm_ps = {}
     lm_ng = {}
     lm_bk = {}
@@ -63,7 +63,7 @@ if __name__ == '__main__':
                 lm_fst.add_arc(node_id, _null_id, fst.EPSILON, fst.EPSILON, bk)
             node_id += 1
     lm_fst.arc_sort_input()
-    lm_fst.write('data/lm.fst', sym_e, sym_e)
+    lm_fst.write('data/lmc.fst', sym_e, sym_e)
 
 
 

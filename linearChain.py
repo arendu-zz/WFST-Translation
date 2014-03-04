@@ -25,6 +25,8 @@ def parseargs(args):
 
 
 def log_linear_chain(txt, sym_f):
+    txt = txt.replace('__s__', '<s>')
+    txt = txt.replace('_s_', '</s>')
     txt = txt.split()
     lc = fst.Transducer(sym_f, sym_f)
     for idx, t in enumerate(txt):
