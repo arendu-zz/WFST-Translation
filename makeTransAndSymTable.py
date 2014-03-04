@@ -67,8 +67,12 @@ if __name__ == '__main__':
     print 'writing unk fst'
     #unk to <unk> mapper
     unk_fst = fst.Transducer(sym_e, sym_e)
-    for u in open('data/unk', 'r').read().split():
+    unk_list =  open('data/unk', 'r').read().split()
+    for u in unk_list:
         unk_fst.add_arc(0, 0, u, '<unk>', 0.0)
+    for (fe,_) in sym_e.items():
+        if fe not in unk_list:
+            unk_fst.add_arc(0,0,fe,fe,0.0)
     unk_fst[0].final = True
     unk_fst.write('data/unk.fst', sym_e, sym_e)
 
