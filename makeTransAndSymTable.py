@@ -61,7 +61,15 @@ if __name__ == '__main__':
     sym_f.write('data/symf.bin')
     print 'writing concat fsts...'
     s = ends('<s>', sym_f, sym_e)
-    s.write('data/s.fst', sym_f, sym_e)
+    s.write('data/__s__.fst', sym_f, sym_e)
     s = ends('</s>', sym_f, sym_e)
-    s.write('data/ss.fst', sym_f, sym_e)
+    s.write('data/_s_.fst', sym_f, sym_e)
+    print 'writing unk fst'
+    #unk to <unk> mapper
+    unk_fst = fst.Transducer(sym_e, sym_e)
+    for u in open('data/unk', 'r').read().split():
+        unk_fst.add_arc(0, 0, u, '<unk>', 0.0)
+    unk_fst[0].final = True
+    unk_fst.write('data/unk.fst', sym_e, sym_e)
+
 
