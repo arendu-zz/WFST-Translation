@@ -10,11 +10,6 @@ if __name__ == '__main__':
     os.system('mkdir lcs-out-' + str(prn))
     dir = "t-" + str(prn)
     for idx, s in enumerate(open(input_file, 'r').readlines()):
-        if idx == 21: 
-            pass
-        else: 
-            continue
-        print idx, s
         os.system('mkdir %s' % dir)
         os.system('cp lcs/lc' + str(idx) + ('.fst %s' % dir)  + '/lc.fst ')
         os.system('fstcompose %s' % dir + '/lc.fst data/seg.fst > %s' % dir + '/lc.seg.fst')
