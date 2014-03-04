@@ -3,10 +3,13 @@ __author__ = 'arenduchintala'
 if __name__ == '__main__':
     lm = open('data/lm', 'r').readlines()
     tm = open('data/tm', 'r').readlines()
+    unk = open('data/unk', 'r').read().split()
     input = open('data/input', 'r').read().split()
     input = set(input)
     sym_e = set(['<s>', '</s>', '<unk>'])
     sym_f = set(['<s>', '</s>', '<unk>'])
+    for u in unk:
+        sym_e.add(u)
     sym_f.update(input)
     for l in lm:
         ls = l.split('\t')

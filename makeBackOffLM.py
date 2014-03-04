@@ -17,7 +17,7 @@ def trysplit(gramline):
 
 if __name__ == '__main__':
     sym_e = fst.read_symbols('data/syme.bin')
-    lm_txt = open('data/lmc', 'r').read()
+    lm_txt = open('data/lm', 'r').read()
     [bs, unigrams, bigrams, trigrams] = re.split('1-grams:|2-grams:|3-grams:', lm_txt)
     unigrams = re.split('\n+', unigrams)
     bigrams = re.split('\n+', bigrams)
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     #connect init to start
     print lm_id['<s>']
     lm_fst.add_arc(lm_id[INITIAL], lm_id[NULL], '<s>', '<s>', 99.0)
-    lm_fst.write('data/explmc.fst', sym_e, sym_e)
+    lm_fst.write('data/explm.fst', sym_e, sym_e)
     """
     99 <s> -1.640621
      9 -2.411867   </s>

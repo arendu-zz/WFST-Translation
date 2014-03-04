@@ -1,6 +1,6 @@
 __author__ = 'arenduchintala'
 
-import fst
+import fst, pdb
 
 
 def make_translation_chunks(phrases, sym_f, sym_e):
@@ -50,7 +50,9 @@ if __name__ == '__main__':
                open('data/tm', 'r').readlines()]
     [phr_f, phr_e, wt] = zip(*phrases)
     phr_f = set(phr_f)
-    potentially_unk = [(tuple([t]), tuple(['<unk>']), 0.0) for t in open('data/input', 'r').read().split() if (t,) not in phr_f]
+    potentially_unk = [(tuple([t]), tuple([t]), 10.0) for t in open('data/input', 'r').read().split() if (t,) not in phr_f]
+
+    pdb.set_trace()
     phrases = phrases + potentially_unk
     out = make_translation_chunks(phrases, sym_f, sym_e)
     out.write('data/trans.fst', sym_f, sym_e)
