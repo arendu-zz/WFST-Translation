@@ -11,7 +11,7 @@ if __name__ == '__main__':
     for idx, s in enumerate(open(input_file, 'r').readlines()):
         print idx, s
         os.system('mkdir t-' + str(prn))
-        os.system('cp lcs/lc' + str(idx) + '.fst t/lc.fst ')
+        os.system('cp lcs/lc' + str(idx) + '.fst t-' + str(prn) + '/lc.fst ')
         os.system('fstcompose t-' + str(prn) + '/lc.fst data/seg.fst > t-' + str(prn) + '/lc.seg.fst')
 
         if reordering:
