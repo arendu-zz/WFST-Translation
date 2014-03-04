@@ -20,8 +20,8 @@ if __name__ == '__main__':
             os.system('fstcompose t-' + str(prn) + '/lc.re.sort.fst data/trans.fst > t-' + str(prn) + '/lc.trans.fst')
         else:
             os.system('fstcompose t-' + str(prn) + '/lc.seg.fst data/trans.fst > t-' + str(prn) + '/lc.trans.fst')
-        os.system('fstshortestpath -nshortest=' + str(prn) + ' t-' + str(prn) + '/lc.trans.fst > t-' + str(prn) + '/lc.short.trans.fst')
-        os.system('fstcompose t-' + str(prn) + '/lc.short.trans.fst data/inv_seg.fst > t-' + str(prn) + '/lc.out.fst')
+        #os.system('fstshortestpath -nshortest=' + str(prn) + ' t-' + str(prn) + '/lc.trans.fst > t-' + str(prn) + '/lc.short.trans.fst')
+        os.system('fstcompose t-' + str(prn) + '/lc.trans.fst data/inv_seg.fst > t-' + str(prn) + '/lc.out.fst')
         os.system('fstconcat data/__s__.fst t-' + str(prn) + '/lc.out.fst > t-' + str(prn) + '/lc.s.out.fst')
         os.system('fstconcat t-' + str(prn) + '/lc.s.out.fst data/_s_.fst > t-' + str(prn) + '/lc.s.s.out.fst')
         os.system('fstshortestpath -nshortest=' + str(prn) + ' t-' + str(prn) + '/lc.s.s.out.fst > t-' + str(prn) + '/lc.s.s.short.out.fst')
