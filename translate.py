@@ -4,7 +4,7 @@ import pdb
 
 if __name__ == '__main__':
     n = 1  # int(sys.argv[1])
-    reordering = False
+    reordering = True  #False
     input_file = str(sys.argv[1])
     for s in open(input_file, 'r').readlines():
         #print s.strip()
@@ -31,4 +31,4 @@ if __name__ == '__main__':
         #os.system('fstcompose t2/lc.s.s.out.sorted.fst data/explm-new.fst > t2/lc.final.fst')
         #os.system('python outputPaths.py t2/lc.final.fst ' + str(n))
         os.system('python printFinal.py t2/lc.final.fst')
-        #os.system('rm -rf t2')
+        os.system('rm -rf t2')
