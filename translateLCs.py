@@ -4,17 +4,17 @@ import pdb
 
 if __name__ == '__main__':
 
-    reordering = True
+    reordering = False #True
     prn = int(sys.argv[2])
     input_file = str(sys.argv[1])
     os.system('mkdir lcs-out-' + str(prn))
     dir = "t-" + str(prn)
     for idx, s in enumerate(open(input_file, 'r').readlines()):
         print idx, s
-        if idx in [20, 22, 27]:  # the 3 files that had mem issues
-            pass
-        else:
-            continue
+        #if idx in [17]:  # the 3 files that had mem issues
+        #    pass
+        #else:
+        #    continue
         os.system('mkdir %s' % dir)
         os.system('cp lcs/lc' + str(idx) + ('.fst %s' % dir) + '/lc.fst ')
         os.system('fstcompose %s' % dir + '/lc.fst data/seg.fst > %s' % dir + '/lc.seg.fst')
