@@ -18,7 +18,6 @@ def add_arc_pr(lmfst, fid, tid, isy, osy, wt):
     lmfst.add_arc(fid, tid, isy, osy, wt)
     print 'added arc', fid, tid
 
-
 if __name__ == '__main__':
     sym_e = fst.read_symbols('data/syme.bin')
     lm_txt = open('data/lm', 'r').read()
