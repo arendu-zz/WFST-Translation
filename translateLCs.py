@@ -11,7 +11,7 @@ if __name__ == '__main__':
     dir = "t-" + str(prn)
     for idx, s in enumerate(open(input_file, 'r').readlines()):
         print idx, s
-        if idx in [20, 22, 27]:
+        if idx in [20, 22, 27]:  # the 3 files that had mem issues
             pass
         else:
             continue
