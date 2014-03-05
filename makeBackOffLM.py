@@ -1,5 +1,5 @@
 __author__ = 'arenduchintala'
-import fst, re, pprint
+import fst, re, pprint, pdb
 
 INITIAL = '_initial_'
 NULL = '_null_'
@@ -66,7 +66,7 @@ if __name__ == '__main__':
             lm_id[ng1, ng2] = lm_id.get((ng1, ng2), len(lm_id))
             from_id = lm_id[ng1]
             to_id = lm_id[ng1, ng2]
-            
+
             add_arc_pr(sym_e, lm_fst, from_id, to_id, ng2, ng2, p)
 
             if bk is not None:

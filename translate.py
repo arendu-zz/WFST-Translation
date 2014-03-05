@@ -26,8 +26,8 @@ if __name__ == '__main__':
         os.system('fstarcsort --sort_type="olabel" t2/lc.s.s.out.fst > t2/lc.s.s.out.sorted.fst')
         os.system('fstcompose t2/lc.s.s.out.sorted.fst data/unk.fst > t2/lc.unk.fst')
 
-        #os.system('fstcompose t2/lc.unk.fst data/lm.fst > t2/lc.final.fst')
-        os.system('fstcompose t2/lc.unk.fst data/explm-new.fst > t2/lc.final.fst')
+        #os.system('fstcompose t2/lc.unk.fst data/explm-new.fst > t2/lc.final.fst')
+        os.system('fstcompose t2/lc.s.s.out.sorted.fst data/explm-new.fst > t2/lc.final.fst')
         #os.system('python outputPaths.py t2/lc.final.fst ' + str(n))
         os.system('python printFinal.py t2/lc.final.fst')
         #os.system('rm -rf t2')
