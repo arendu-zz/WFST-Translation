@@ -3,7 +3,7 @@ import sys
 import pdb
 
 if __name__ == '__main__':
-    n = 1  # int(sys.argv[1])
+    
     reordering = False
     prn = int(sys.argv[2])
     input_file = str(sys.argv[1])
