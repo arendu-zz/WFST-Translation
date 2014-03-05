@@ -11,12 +11,12 @@ if __name__ == '__main__':
     dir = "t-" + str(prn)
     for idx, s in enumerate(open(input_file, 'r').readlines()):
         os.system('mkdir %s' % dir)
-        os.system('cp lcs/lc' + str(idx) + ('.fst %s' % dir)  + '/lc.fst ')
+        os.system('cp lcs/lc' + str(idx) + ('.fst %s' % dir) + '/lc.fst ')
         os.system('fstcompose %s' % dir + '/lc.fst data/seg.fst > %s' % dir + '/lc.seg.fst')
 
         if reordering:
             os.system('fstcompose %s' % dir + '/lc.seg.fst data/reorder.fst > %s' % dir + '/lc.re.fst')
-            os.system('fstarcsort --sort_type="olabel" %s' % dir  + '/lc.re.fst > %s' % dir + '/lc.re.sort.fst')
+            os.system('fstarcsort --sort_type="olabel" %s' % dir + '/lc.re.fst > %s' % dir + '/lc.re.sort.fst')
             os.system('fstcompose %s' % dir + '/lc.re.sort.fst data/trans.fst > %s' % dir + '/lc.trans.fst')
         else:
             os.system('fstcompose %s' % dir + '/lc.seg.fst data/trans.fst > %s' % dir + '/lc.trans.fst')
@@ -26,9 +26,12 @@ if __name__ == '__main__':
         os.system('fstconcat %s' % dir + '/lc.s.out.fst data/_s_.fst > %s' % dir + '/lc.s.s.out.fst')
         os.system('fstarcsort --sort_type="olabel" %s/lc.s.s.out.fst > %s/lc.s.s.out.sorted.fst' % (dir, dir))
         os.system('fstcompose %s' % dir + '/lc.s.s.out.sorted.fst data/unk.fst > %s' % dir + '/lc.unk.unsorted.fst')
-        os.system('fstarcsort --sort_type="olabel" %s' % dir + '/lc.unk.unsorted.fst > %s' % dir +'/lc.unk.fst')
-        os.system('fstshortestpath -nshortest=' + str(prn) + ' %s' % dir + '/lc.unk.fst > %s' % dir + '/lc.s.s.short.out.fst')
-        os.system('fstcompose %s' % dir + '/lc.s.s.short.out.fst data/explm-new.fst > %s' % dir + '/lc.final.fst')
+        os.system('fstarcsort --sort_type="olabel" %s' % dir + '/lc.unk.unsorted.fst > %s' % dir + '/lc.unk.fst')
+        if prn > 0:
+            os.system('fstshortestpath -nshortest=' + str(prn) + ' %s' % dir + '/lc.unk.fst > %s' % dir + '/lc.s.s.short.out.fst')
+            os.system('fstcompose %s' % dir + '/lc.s.s.short.out.fst data/explm-new.fst > %s' % dir + '/lc.final.fst')
+        else:
+            os.system('fstcompose %s' % dir + '/lc.unk.fst data/explm-new.fst > %s' % dir + '/lc.final.fst')
         #os.system('python outputPaths.py t-'+str(prn)+'/lc.final.fst ' + str(n))
         os.system('fstshortestpath -nshortest=1 %s' % dir + '/lc.final.fst > %s' % dir + '/lc-ep-' + str(idx) + '.final.fst')
         os.system('fstrmepsilon %s' % dir + '/lc-ep-' + str(idx) + '.final.fst > %s' % dir + '/lc' + str(idx) + '.final.fst')
