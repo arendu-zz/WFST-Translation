@@ -1,6 +1,6 @@
 __author__ = 'arenduchintala'
-
-import fst, pdb
+# -- coding: utf-8 --
+import fst
 
 
 def make_translation_chunks(phrases, sym_f, sym_e):
@@ -16,10 +16,13 @@ def make_translation_chunks(phrases, sym_f, sym_e):
     ist = 1
     for fp, e_list in functional_phrases.iteritems():
         fp = '_'.join(fp)
+        print fp
+        full.add_state()
         full.add_arc(0, ist, fp, fst.EPSILON, 0.0)
         for ep, lp in e_list:
             ep = '_'.join(ep)
-            print '\t', ep, sym_f[fp], lp
+            print '\t', fp, ep, sym_f[fp], lp
+            full.add_state()
             full.add_arc(ist, 0, fst.EPSILON, ep, lp)
         #full.add_arc(ist, 0, fst.EPSILON, ep, 0.0)
         ist += 1
@@ -46,13 +49,11 @@ if __name__ == '__main__':
         for lw in l.split()[0].split('_'):
             sym_f[lw]
 
-    phrases = [(tuple(l.split('|||')[0].split()), tuple(l.split('|||')[1].split()), float(l.split('|||')[2])) for l in
-               open('data/tm', 'r').readlines()]
+    phrases = [(tuple(l.split('|||')[0].strip().split()), tuple(l.split('|||')[1].strip().split()), float(l.split('|||')[2].strip())) for l
+               in open('data/tm', 'r').readlines()]
     [phr_f, phr_e, wt] = zip(*phrases)
     phr_f = set(phr_f)
     potentially_unk = [(tuple([t]), tuple([t]), 10.0) for t in open('data/input', 'r').read().split() if (t,) not in phr_f]
-
-    pdb.set_trace()
     phrases = phrases + potentially_unk
     out = make_translation_chunks(phrases, sym_f, sym_e)
     out.write('data/trans.fst', sym_f, sym_e)
@@ -67,12 +68,12 @@ if __name__ == '__main__':
     print 'writing unk fst'
     #unk to <unk> mapper
     unk_fst = fst.Transducer(sym_e, sym_e)
-    unk_list =  open('data/unk', 'r').read().split()
+    unk_list = open('data/unk', 'r').read().split()
     for u in unk_list:
         unk_fst.add_arc(0, 0, u, '<unk>', 0.0)  # THIS IS A HACK! u should actually be <unk>
-    for (fe,_) in sym_e.items():
+    for (fe, _) in sym_e.items():
         if fe not in unk_list:
-            unk_fst.add_arc(0,0,fe,fe,0.0)
+            unk_fst.add_arc(0, 0, fe, fe, 0.0)
     unk_fst[0].final = True
     unk_fst.write('data/unk.fst', sym_e, sym_e)
 

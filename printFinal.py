@@ -36,7 +36,7 @@ if __name__ == '__main__':
         f = fst.read_std(sys.argv[1].strip())
         unk = set(open('data/unk').read().split())
     except:
-        print 'useage: python outputPaths.py [in.fst]\n'  # takes 1-best
+        print 'useage: python printFinal.py [in.fst]\n'  # takes 1-best
         exit()
     f.remove_epsilon()
     paths = getpaths(f, unk)
