@@ -4,14 +4,15 @@ import pdb
 
 if __name__ == '__main__':
 
-    reordering = False #True
+    reordering = True
     prn = int(sys.argv[2])
+    tran_prn = 0
     input_file = str(sys.argv[1])
     os.system('mkdir lcs-out-' + str(prn))
     dir = "t-" + str(prn)
     for idx, s in enumerate(open(input_file, 'r').readlines()):
         print idx, s
-        #if idx in [17]:  # the 3 files that had mem issues
+        #if idx in [38]:  # the 3 files that had mem issues
         #    pass
         #else:
         #    continue
@@ -25,8 +26,11 @@ if __name__ == '__main__':
             os.system('fstcompose %s' % dir + '/lc.re.sort.fst data/trans.fst > %s' % dir + '/lc.trans.fst')
         else:
             os.system('fstcompose %s' % dir + '/lc.seg.fst data/trans.fst > %s' % dir + '/lc.trans.fst')
-        #os.system('fstshortestpath -nshortest=' + str(prn) + ' %s' % dir + '/lc.trans.fst > %s' % dir + '/lc.short.trans.fst')
-        os.system('fstcompose %s' % dir + '/lc.trans.fst data/inv_seg.fst > %s' % dir + '/lc.out.fst')
+        if tran_prn > 0:
+            os.system('fstshortestpath -nshortest=' + str(tran_prn) + ' %s' % dir + '/lc.trans.fst > %s' % dir + '/lc.best.trans.fst')
+            os.system('fstcompose %s' % dir + '/lc.best.trans.fst data/inv_seg.fst > %s' % dir + '/lc.out.fst')
+        else:
+            os.system('fstcompose %s' % dir + '/lc.trans.fst data/inv_seg.fst > %s' % dir + '/lc.out.fst')
         os.system('fstconcat data/__s__.fst %s' % dir + '/lc.out.fst > %s' % dir + '/lc.s.out.fst')
         os.system('fstconcat %s' % dir + '/lc.s.out.fst data/_s_.fst > %s' % dir + '/lc.s.s.out.fst')
         os.system('fstarcsort --sort_type="olabel" %s/lc.s.s.out.fst > %s/lc.s.s.out.sorted.fst' % (dir, dir))
@@ -40,6 +44,6 @@ if __name__ == '__main__':
         #os.system('python outputPaths.py t-'+str(prn)+'/lc.final.fst ' + str(n))
         os.system('fstshortestpath -nshortest=1 %s' % dir + '/lc.final.fst > %s' % dir + '/lc-ep-' + str(idx) + '.final.fst')
         os.system('fstrmepsilon %s' % dir + '/lc-ep-' + str(idx) + '.final.fst > %s' % dir + '/lc' + str(idx) + '.final.fst')
-        os.system('cp %s' % dir + '/lc' + str(idx) + '.final.fst lcs-out-' + str(prn) + '/lc' + str(idx) + '.final.fst')
+        #os.system('cp %s' % dir + '/lc' + str(idx) + '.final.fst lcs-out-' + str(prn) + '/lc' + str(idx) + '.final.fst')
         os.system('rm -rf %s' % dir)
 
